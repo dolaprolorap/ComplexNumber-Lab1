@@ -1,10 +1,12 @@
 #include <cassert>
-#include "ComplexNumber.cpp"
+#include <iostream>
+#include "ComplexNumber.h"
+#include "ComplexNumberPacker.h"
 
 void test_ConstructorDefault() {
-    ComplexNumber<float> c();
-    assert(c.GetReal() == 0);
-    assert(c.GetImaginary() == 0);
+    ComplexNumber<float> c;
+    assert(c.GetReal() == 0.0f);
+    assert(c.GetImaginary() == 0.0f);
 }
 
 void test_Constructor() {
@@ -146,4 +148,35 @@ void test_EqualsFloat() {
     assert(a == b);
     a.SetImaginary(1);
     assert(a != b);
+}
+
+void test_Unpacking() {
+    ComplexNumber<float> a(10, 2);
+    ComplexNumberPacker<float> p;
+    auto packed = p.Pack(a);
+    ComplexNumber<float> b = p.Unpack(packed);
+    assert(a.GetReal() == b.GetReal() && a.GetImaginary() == b.GetImaginary());
+}
+
+int main() {
+    test_ConstructorDefault();
+    test_Constructor();
+    test_ConstructorPolar();
+    test_FromFloat();
+    test_GetReal();
+    test_SetReal();
+    test_GetImaginary();
+    test_SetImaginary();
+    test_Add();
+    test_Sub();
+    test_Mult();
+    test_Div();
+    test_Pow();
+    test_Abs();
+    test_Arg();
+    test_EqualsInt();
+    test_EqualsFloat();
+    test_Unpacking();
+
+    return 0;
 }
